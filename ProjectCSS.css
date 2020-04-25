@@ -1,0 +1,40 @@
+
+body
+{
+  background-color: black;
+  color: white;
+  text-align: center;
+  margin: auto;
+  max-width: 1080px;
+}
+
+ul
+{
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+li
+{
+  margin : auto;
+  padding: 5px;
+  font-size: 2em;
+}
+
+#GameWindow
+{
+  display: none;
+  flex-direction: row;
+}
+.HeroBox, .NemesisBox, .CenterBox
+{
+  margin: auto;
+  padding: 20px;
+}
+#CombatLog
+{
+  height: 500px;
+  overflow: auto;
+}
