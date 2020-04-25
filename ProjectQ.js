@@ -61,7 +61,7 @@ class Archer extends Classe{
   }
 
   crit(name){
-    battleLog.innerHTML += "<br />The "+name+ " "+hero.name+" quickly fire his next arrow !";
+    battleLog.innerHTML += "<br />The "+name+ " "+this.name+" quickly fire his next arrow !";
     attackTurn(name);
   }
 }
@@ -137,7 +137,9 @@ function charselect(char){
 function battleRound(){
   if(hero.hp > 0 && nemesis.hp > 0){
     attackTurn("Hero");
+    battleLog.innerHTML += "<br />"
     attackTurn("Nemesis");
+    battleLog.innerHTML += "<br />"
     if(hero.hp > 0 && nemesis.hp<=0){
       console.log("the hero " + hero.name + " wins !");
       battleLog.innerHTML += "<br />The Hero "+hero.name+" wins !";
@@ -190,9 +192,11 @@ function attackTurn(name){
       if(critstate == 1){
         if(dodgestate == 1){
           battleLog.innerHTML += "<br />But the Nemesis " +nemesis.name+" dodged !" ;
+          hero.crit(name);
         }
         else{
           battleLog.innerHTML += "<br />But the Nemesis " +nemesis.name+" blocked !" ;
+          hero.crit(name);
         }
       }
       else{
@@ -205,11 +209,15 @@ function attackTurn(name){
       }
     }
     else{
+      if(critstate == 1){
+        battleLog.innerHTML += "<br />The Hero " +hero.name+" hitted for "+damage+" damages !" ;
+        hero.crit(name);
+        nemesis.hp -= damage;
+      }
+      else{
       nemesis.hp -= damage;
       battleLog.innerHTML += "<br />The Hero " +hero.name+" hitted for "+damage+" damages !" ;
-    }
-    if(critstate == 1){
-      hero.crit(name);
+      }
     }
   }
   else{
@@ -225,9 +233,11 @@ function attackTurn(name){
         if(critstate == 1){
           if(dodgestate == 1){
             battleLog.innerHTML += "<br />But the Hero " +hero.name+" dodged !" ;
+            nemesis.crit(name);
           }
           else{
             battleLog.innerHTML += "<br />But the Hero " +hero.name+" blocked !" ;
+            nemesis.crit(name);
           }
         }
         else{
@@ -240,13 +250,16 @@ function attackTurn(name){
         }
       }
       else{
-        hero.hp -= damage;
-        battleLog.innerHTML += "<br />The Nemesis " +nemesis.name+" hitted for "+damage+" damages !" ;
-      }
-      if(critstate == 1){
-        nemesis.crit(name);
+        if(critstate == 1){
+          battleLog.innerHTML += "<br />The Nemesis " +nemesis.name+" hitted for "+damage+" damages !" ;
+          nemesis.crit(name);
+          hero.hp -= damage;
+        }
+        else{
+          hero.hp -= damage;
+          battleLog.innerHTML += "<br />The Nemesis " +nemesis.name+" hitted for "+damage+" damages !" ;
+        }
       }
     }
   }
-  battleLog.innerHTML += "<br />" ;
 }
