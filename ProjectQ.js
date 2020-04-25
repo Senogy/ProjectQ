@@ -254,3 +254,80 @@ function getRandomClass(){
   console.log("getRandomClass roll "+carole+" , "+classArray[carole]);
   return classArray[carole];
 }
+
+function attackTurn(name){
+  let damage, critroll;
+  let critstate = 0,dodgestate = 0;
+  critroll = Math.random();
+  if(name == "Hero"){
+    damage = hero.attack();
+    if(critroll < hero.crtchance){
+      damage *= hero.crtmltp;
+      critstate = 1;
+      battleLog.innerHTML += "<br />The Hero " +hero.name+" critically striked !" ;
+    }
+    dodgestate = nemesis.dodge();
+    if(dodgestate != 0){
+      if(critstate == 1){
+        if(dodgestate == 1){
+          battleLog.innerHTML += "<br />but the Nemesis " +nemesis.name+" dodged !" ;
+        }
+        else{
+          battleLog.innerHTML += "<br />but the Nemesis " +nemesis.name+" blocked !" ;
+        }
+      }
+      else{
+        if(dodgestate == 1){
+          battleLog.innerHTML += "<br />The Nemesis " +nemesis.name+" dodged !" ;
+        }
+        else{
+          battleLog.innerHTML += "<br />The Nemesis " +nemesis.name+" blocked !" ;
+        }
+      }
+    }
+    else{
+      nemesis.hp -= damage;
+      battleLog.innerHTML += "<br />The Hero " +hero.name+" hitted for "+damage+" damages !" ;
+    }
+    if(critstate == 1){
+      hero.crit(name);
+    }
+  }
+  else{
+    if(name == "Nemesis"){
+      damage = nemesis.attack();
+      if(critroll < nemesis.crtchance){
+        damage *= nemesis.crtmltp;
+        critstate = 1;
+        battleLog.innerHTML += "<br />The Nemesis " +nemesis.name+" critically striked !" ;
+      }
+      dodgestate = hero.dodge();
+      if(dodgestate != 0){
+        if(critstate == 1){
+          if(dodgestate == 1){
+            battleLog.innerHTML += "<br />but the Hero " +hero.name+" dodged !" ;
+          }
+          else{
+            battleLog.innerHTML += "<br />but the Hero " +hero.name+" blocked !" ;
+          }
+        }
+        else{
+          if(dodgestate == 1){
+            battleLog.innerHTML += "<br />The Hero " +hero.name+" dodged !" ;
+          }
+          else{
+            battleLog.innerHTML += "<br />The Hero " +hero.name+" blocked !" ;
+          }
+        }
+      }
+      else{
+        hero.hp -= damage;
+        battleLog.innerHTML += "<br />The Nemesis " +nemesis.name+" hitted for "+damage+" damages !" ;
+      }
+      if(critstate == 1){
+        nemesis.crit(name);
+      }
+    }
+  }
+  battleLog.innerHTML += "<br />" ;
+}
