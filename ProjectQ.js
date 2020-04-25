@@ -13,20 +13,10 @@ class Classe{
     this.blkchance = ClassStats[7]; // Block chance
   }
 
-  attack(name){
-    let damage, critroll, bestStat;
-    critroll = Math.random();
-    //console.log(this.name + " rolled a "+critroll+"in crit roll");
+  attack(){
+    let bestStat;
     bestStat = Math.max(this.str,this.agi,this.int); // Determinate best offensive statistic between strength agility and intelligence
-    damage = Math.floor((1+Math.random()) * (bestStat/3)); // deal damage between half and full of the stats
-    if (critroll < this.crtchance ){ // if critroll is inferior to critical chances the attack is a crit and deal bonus damage determined by critical multiplier
-      console.log("Crit!");
-      battleLog.innerHTML += "<br />The "+name+" "+this.name+" critically striked !";
-      return Math.floor(damage * this.crtmltp);
-    }
-    else{
-      return damage;
-    }
+    return Math.floor((1+Math.random()) * (bestStat/3)); // deal damage between half and full of the stats
   }
 
   dodge(){
@@ -34,14 +24,13 @@ class Classe{
     dodgechance = this.agi/250;
     dodgeroll = Math.random();
     if (dodgeroll < dodgechance){
-      console.log(this.name + " Dodged !");
-      //battleLog.innerHTML += "<br />Dodged !";
       return 1;
     }
     else{
       return 0;
     }
   }
+  crit(name){};
 }
 class Warrior extends Classe{
   constructor(){
@@ -54,14 +43,10 @@ class Warrior extends Classe{
     dodgeroll = Math.random();
     blockroll = Math.random();
     if (dodgeroll < dodgechance){
-      console.log(this.name + " Dodged !");
-      //battleLog.innerHTML += "<br />Dodged !";
       return 1;
     }
     else{
       if(blockroll < this.blkchance){
-        console.log(this.name + " Blocked !");
-        //battleLog.innerHTML += "<br />Blocked !";
         return 2;
       }
       else{
@@ -75,20 +60,9 @@ class Archer extends Classe{
     super(["Archer",130,30,50,20,0.33,1.25,0]);
   }
 
-  attack(name){
-    let damage, critroll, bestStat;
-    critroll = Math.random();
-    //console.log(this.name + " rolled a "+critroll+"in crit roll");
-    bestStat = Math.max(this.str,this.agi,this.int);
-    damage = Math.floor((1+Math.random()) * (bestStat/3));
-    if (critroll < this.crtchance ){
-      console.log("Crit! One more turn");
-      battleLog.innerHTML += "<br />The "+name+" "+this.name+" critically striked ! One more turn !";
-      return this.attack(name) + Math.floor(damage * this.crtmltp); // Archer crit trigger additionnal attack, until he doesn't crit
-    }
-    else{
-      return damage;
-    }
+  crit(name){
+    battleLog.innerHTML += "<br />The "+name+ " "+hero.name+" quickly fire his next arrow !";
+    attackTurn(name);
   }
 }
 class Assassin extends Classe {
@@ -106,22 +80,10 @@ class Healer extends Classe {
     super(["Healer",140,30,30,40,0.15,1.5,0]);
   }
 
-  attack(){
-    let damage, critroll, bestStat,healroll;
-    critroll = Math.random();
-    //console.log(this.name + " rolled a "+critroll+"in crit roll");
-    bestStat = Math.max(this.str,this.agi,this.int);
-    damage = Math.floor((1+Math.random()) * (bestStat/3));
-    if (critroll < this.crtchance ){
-      healroll = Math.floor((1+Math.random()) * (this.int/2));
-      this.hp += healroll; //if Healer crit he heal himself for half of the damage dealt dodged or not
-      console.log("Crit! Healed of "+ healroll);
-      battleLog.innerHTML += "<br />The "+name+" "+this.name+" critically striked ! He healed himself of "+healroll+" Hp !";
-      return Math.floor(damage * this.crtmltp);
-    }
-    else{
-      return damage;
-    }
+  crit(name){
+    let healroll = Math.floor((1+Math.random()) * (this.int/2));
+    this.hp += healroll; //if Healer crit he heal himself for half of the damage dealt dodged or not
+    battleLog.innerHTML += "<br />The "+name+" "+this.name+" healed himself of "+healroll+" Hp !";
   }
 }
 class Illusionist extends Classe {
@@ -129,23 +91,12 @@ class Illusionist extends Classe {
     super(["Illusionist",110,20,20,40,0.5,1.2,0]);
   }
 
-  attack(){
-    let damage, critroll, bestStat, hpSwap;
-    critroll = Math.random();
-    //console.log(this.name + " rolled a "+critroll+"in crit roll");
-    bestStat = Math.max(this.str,this.agi,this.int)
-    damage = Math.floor((1+Math.random()) * (bestStat/3))
-    if (critroll < this.crtchance ){
-      hpSwap = nemesis.hp;
-      nemesis.hp = hero.hp;
-      hero.hp = hpSwap;
-      console.log("Crit! Life Swap");
-      battleLog.innerHTML += "<br />The "+name+" "+this.name+" critically striked ! He just did a life swap";
-      return Math.floor(damage * this.crtmltp);
-    }
-    else{
-      return damage;
-    }
+  crit(name){
+    let hpSwap;
+    hpSwap = nemesis.hp;
+    nemesis.hp = hero.hp;
+    hero.hp = hpSwap;
+    battleLog.innerHTML += "<br />The "+name+" "+this.name+" just did a life swap";
   }
 }
 
@@ -185,39 +136,8 @@ function charselect(char){
 
 function battleRound(){
   if(hero.hp > 0 && nemesis.hp > 0){
-    let nemesisdamage, herodamage,nemesisdodgeroll, herododgeroll;
-    herodamage = hero.attack("Hero");
-    nemesisdamage = nemesis.attack("Nemesis");
-    nemesisdodgeroll = nemesis.dodge();
-    herododgeroll = hero.dodge();
-    if(nemesisdodgeroll==0){
-      nemesis.hp -= herodamage;
-      console.log("hero dealt "+herodamage+ " damages");
-      battleLog.innerHTML += "<br />The Hero "+hero.name+" dealed "+herodamage+ " damages";
-    }
-    else{
-      if(nemesisdodgeroll==2){
-        battleLog.innerHTML += "<br />The Nemesis "+nemesis.name +" blocked !";
-      }
-      else {
-        battleLog.innerHTML += "<br />The Nemesis "+nemesis.name +" dodged !";
-      }
-    }
-    if(herododgeroll==0){
-      hero.hp -= nemesisdamage;
-      console.log("nemesis dealt "+nemesisdamage+ " damages");
-      battleLog.innerHTML += "<br />The Nemesis "+nemesis.name+" dealed "+nemesisdamage+ " damages";
-    }
-    else{
-      if(herododgeroll==2){
-        battleLog.innerHTML += "<br />The Hero "+hero.name +" blocked !";
-      }
-      else {
-        battleLog.innerHTML += "<br />The Hero "+hero.name +" dodged !";
-      }
-    }
-    console.log("hero "+hero.name +" has "+hero.hp+" hp left");
-    console.log("nemesis "+nemesis.name +" has "+nemesis.hp+" hp left");
+    attackTurn("Hero");
+    attackTurn("Nemesis");
     if(hero.hp > 0 && nemesis.hp<=0){
       console.log("the hero " + hero.name + " wins !");
       battleLog.innerHTML += "<br />The Hero "+hero.name+" wins !";
@@ -236,7 +156,6 @@ function battleRound(){
     }
   document.getElementById('HeroStats').innerHTML = statWindow(hero);
   document.getElementById('NemesisStats').innerHTML = statWindow(nemesis);
-  battleLog.innerHTML += "<br />";
   }
 }
 
@@ -262,7 +181,7 @@ function attackTurn(name){
   if(name == "Hero"){
     damage = hero.attack();
     if(critroll < hero.crtchance){
-      damage *= hero.crtmltp;
+      damage = Math.floor(hero.crtmltp*damage);
       critstate = 1;
       battleLog.innerHTML += "<br />The Hero " +hero.name+" critically striked !" ;
     }
@@ -270,10 +189,10 @@ function attackTurn(name){
     if(dodgestate != 0){
       if(critstate == 1){
         if(dodgestate == 1){
-          battleLog.innerHTML += "<br />but the Nemesis " +nemesis.name+" dodged !" ;
+          battleLog.innerHTML += "<br />But the Nemesis " +nemesis.name+" dodged !" ;
         }
         else{
-          battleLog.innerHTML += "<br />but the Nemesis " +nemesis.name+" blocked !" ;
+          battleLog.innerHTML += "<br />But the Nemesis " +nemesis.name+" blocked !" ;
         }
       }
       else{
@@ -297,7 +216,7 @@ function attackTurn(name){
     if(name == "Nemesis"){
       damage = nemesis.attack();
       if(critroll < nemesis.crtchance){
-        damage *= nemesis.crtmltp;
+        damage = Math.floor(nemesis.crtmltp*damage);
         critstate = 1;
         battleLog.innerHTML += "<br />The Nemesis " +nemesis.name+" critically striked !" ;
       }
@@ -305,10 +224,10 @@ function attackTurn(name){
       if(dodgestate != 0){
         if(critstate == 1){
           if(dodgestate == 1){
-            battleLog.innerHTML += "<br />but the Hero " +hero.name+" dodged !" ;
+            battleLog.innerHTML += "<br />But the Hero " +hero.name+" dodged !" ;
           }
           else{
-            battleLog.innerHTML += "<br />but the Hero " +hero.name+" blocked !" ;
+            battleLog.innerHTML += "<br />But the Hero " +hero.name+" blocked !" ;
           }
         }
         else{
