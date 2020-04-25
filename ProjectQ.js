@@ -43,7 +43,7 @@ class Classe{
   }
 }
 class Warrior extends Classe{
-  constructor(WarriorStats){
+  constructor(){
     super(["Warrior",150,40,10,20,0.2,1.5,0.2]);
   }
 
@@ -70,7 +70,7 @@ class Warrior extends Classe{
   }
 }
 class Archer extends Classe{
-  constructor(ArcherStats){
+  constructor(){
     super(["Archer",130,30,50,20,0.33,1.25,0]);
   }
 
@@ -91,17 +91,17 @@ class Archer extends Classe{
   }
 }
 class Assassin extends Classe {
-  constructor(AssassinStats) {
+  constructor() {
     super(["Assassin",120,10,40,20,0.30,3,0]);
   }
 }
 class Mage extends Classe {
-  constructor(MageStats) {
+  constructor() {
     super(["Mage",100,20,30,70,0.05,3,0]);
   }
 }
 class Healer extends Classe {
-  constructor(HealerStats) {
+  constructor() {
     super(["Healer",140,30,30,40,0.15,1.5,0]);
   }
 
@@ -124,7 +124,7 @@ class Healer extends Classe {
   }
 }
 class Illusionist extends Classe {
-  constructor(IllusionistStats) {
+  constructor() {
     super(["Illusionist",110,20,20,40,0.5,1.2,0]);
   }
 
@@ -147,19 +147,18 @@ class Illusionist extends Classe {
     }
   }
 }
-document.getElementById('Warrior').onclick = () => projectQ(1);
-document.getElementById('Archer').onclick = () => projectQ(2);
-document.getElementById('Assassin').onclick = () => projectQ(3);
-document.getElementById('Mage').onclick = () => projectQ(4);
-document.getElementById('Healer').onclick = () => projectQ(5);
-document.getElementById('Illusionist').onclick = () => projectQ(6);
+document.getElementById('Warrior').onclick = () => setupGame("Warrior");
+document.getElementById('Archer').onclick = () => setupGame("Archer");
+document.getElementById('Assassin').onclick = () => setupGame("Assassin");
+document.getElementById('Mage').onclick = () => setupGame("Mage");
+document.getElementById('Healer').onclick = () => setupGame("Healer");
+document.getElementById('Illusionist').onclick = () => setupGame("Illusionist");
 
 
-function projectQ(charclass){     // Charclass répare charclass remplace
+function setupGame(charclass){     // Charclass répare charclass remplace
   document.getElementById('ClassSelector').style.display = "none";
   console.log("ProjectQ now running...");
-  var nemesisroll;
-  nemesisroll = Math.floor(Math.random() * 6)+1;
+  nemesisroll = getRandomClass();
   hero = charselect(""+charclass);
   nemesis = charselect(""+nemesisroll);
   document.getElementById('GameWindow').style.display = "flex";
@@ -177,12 +176,12 @@ function projectQ(charclass){     // Charclass répare charclass remplace
 
 function charselect(char){
   switch(char){
-    case '1':return new Warrior();break;
-    case '2':return new Archer();break;
-    case '3':return new Assassin();break;
-    case '4':return new Mage();break;
-    case '5':return new Healer();break;
-    case '6':return new Illusionist();break;
+    case 'Warrior':return new Warrior();break;
+    case 'Archer':return new Archer();break;
+    case 'Assassin':return new Assassin();break;
+    case 'Mage':return new Mage();break;
+    case 'Healer':return new Healer();break;
+    case 'Illusionist':return new Illusionist();break;
     default:console.log("Wrong Input");
   }
 }
@@ -221,17 +220,17 @@ function battleRound(){
   }
   console.log("hero "+hero.name +" has "+hero.hp+" hp left");
   console.log("nemesis "+nemesis.name +" has "+nemesis.hp+" hp left");
-  if(hero.hp > 0 && nemesis.hp<0){
+  if(hero.hp > 0 && nemesis.hp<=0){
     console.log("the hero " + hero.name + " wins !");
     battleLog.innerHTML += "<br />The Hero "+hero.name+" wins !";
   }
   else{
-    if(nemesis.hp > 0 && hero.hp<0){
+    if(nemesis.hp > 0 && hero.hp<=0){
       console.log("the nemesis " + nemesis.name + " wins !");
       battleLog.innerHTML += "<br />The Nemesis "+nemesis.name+" wins !";
     }
     else{
-      if(nemesis.hp<0 && hero.hp<0){
+      if(nemesis.hp<=0 && hero.hp<=0){
         console.log("the two dumbasses killed themselves !");
         battleLog.innerHTML += "<br />The Dumbasses double-koed themselves";
       }
@@ -247,4 +246,12 @@ function statWindow(char){
   "<br />Strength: "+char.str+
   "<br />Agility: "+char.agi+
   "<br />Intelligence: "+char.int;
+}
+
+function getRandomClass(){
+  var carole; // character roll --> charroll --> Carole
+  var classArray = ["Warrior","Archer","Assassin","Mage","Healer","Illusionist"];
+  carole = Math.floor(Math.random() * 6);
+  console.log("getRandomClass roll "+carole+" , "+classArray[carole]);
+  return classArray[carole];
 }
