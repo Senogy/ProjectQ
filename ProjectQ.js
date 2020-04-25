@@ -1,5 +1,6 @@
 var hero, nemesis;
 var battleLog = document.getElementById('CombatLog');
+
 class Classe{
   constructor(ClassStats){
     this.name = ClassStats[0];      // Classe name
@@ -12,7 +13,7 @@ class Classe{
     this.blkchance = ClassStats[7]; // Block chance
   }
 
-  attack(){
+  attack(name){
     let damage, critroll, bestStat;
     critroll = Math.random();
     //console.log(this.name + " rolled a "+critroll+"in crit roll");
@@ -20,7 +21,7 @@ class Classe{
     damage = Math.floor((1+Math.random()) * (bestStat/3)); // deal damage between half and full of the stats
     if (critroll < this.crtchance ){ // if critroll is inferior to critical chances the attack is a crit and deal bonus damage determined by critical multiplier
       console.log("Crit!");
-      battleLog.innerHTML += "<br />Crit !";
+      battleLog.innerHTML += "<br />The "+name+" "+this.name+" critically striked !";
       return Math.floor(damage * this.crtmltp);
     }
     else{
@@ -74,7 +75,7 @@ class Archer extends Classe{
     super(["Archer",130,30,50,20,0.33,1.25,0]);
   }
 
-  attack(){
+  attack(name){
     let damage, critroll, bestStat;
     critroll = Math.random();
     //console.log(this.name + " rolled a "+critroll+"in crit roll");
@@ -82,8 +83,8 @@ class Archer extends Classe{
     damage = Math.floor((1+Math.random()) * (bestStat/3));
     if (critroll < this.crtchance ){
       console.log("Crit! One more turn");
-      battleLog.innerHTML += "<br />Crit ! One more turn";
-      return this.attack() + Math.floor(damage * this.crtmltp); // Archer crit trigger additionnal attack, until he doesn't crit
+      battleLog.innerHTML += "<br />The "+name+" "+this.name+" critically striked ! One more turn !";
+      return this.attack(name) + Math.floor(damage * this.crtmltp); // Archer crit trigger additionnal attack, until he doesn't crit
     }
     else{
       return damage;
@@ -115,7 +116,7 @@ class Healer extends Classe {
       healroll = Math.floor((1+Math.random()) * (this.int/2));
       this.hp += healroll; //if Healer crit he heal himself for half of the damage dealt dodged or not
       console.log("Crit! Healed of "+ healroll);
-      battleLog.innerHTML += "<br />Crit ! Healed of "+healroll+" Hp !";
+      battleLog.innerHTML += "<br />The "+name+" "+this.name+" critically striked ! He healed himself of "+healroll+" Hp !";
       return Math.floor(damage * this.crtmltp);
     }
     else{
@@ -136,10 +137,10 @@ class Illusionist extends Classe {
     damage = Math.floor((1+Math.random()) * (bestStat/3))
     if (critroll < this.crtchance ){
       hpSwap = nemesis.hp;
-      nemesis.hp = this.hp;
-      this.hp = hpSwap;
+      nemesis.hp = hero.hp;
+      hero.hp = hpSwap;
       console.log("Crit! Life Swap");
-      battleLog.innerHTML += "<br />Crit ! Life Swap";
+      battleLog.innerHTML += "<br />The "+name+" "+this.name+" critically striked ! He just did a life swap";
       return Math.floor(damage * this.crtmltp);
     }
     else{
@@ -147,6 +148,7 @@ class Illusionist extends Classe {
     }
   }
 }
+
 document.getElementById('Warrior').onclick = () => setupGame("Warrior");
 document.getElementById('Archer').onclick = () => setupGame("Archer");
 document.getElementById('Assassin').onclick = () => setupGame("Assassin");
@@ -166,12 +168,7 @@ function setupGame(charclass){     // Charclass répare charclass remplace
   document.getElementById('HeroStats').innerHTML = statWindow(hero);
   document.getElementById('NemesisClass').innerHTML = nemesis.name;
   document.getElementById('NemesisStats').innerHTML = statWindow(nemesis);
-  if(hero.hp > 0 && nemesis.hp > 0){
-    document.getElementById('RoundButton').onclick = () => battleRound()
-  }
-  else{
-    document.getElementById('RoundButton').onclick = () => location.reload()
-  }
+  document.getElementById('RoundButton').onclick = () => battleRound()
 }
 
 function charselect(char){
@@ -187,58 +184,60 @@ function charselect(char){
 }
 
 function battleRound(){
-  let nemesisdamage, herodamage,nemesisdodgeroll, herododgeroll;
-  herodamage = hero.attack();
-  nemesisdamage = nemesis.attack();
-  nemesisdodgeroll = nemesis.dodge();
-  herododgeroll = hero.dodge();
-  if(nemesisdodgeroll==0){
-    nemesis.hp -= herodamage;
-    console.log("hero dealt "+herodamage+ " damages");
-    battleLog.innerHTML += "<br />Hero "+hero.name+" dealt "+herodamage+ " damages";
-  }
-  else{
-    if(nemesisdodgeroll==2){
-      battleLog.innerHTML += "<br />The Nemesis "+nemesis.name +" blocked !";
-    }
-    else {
-      battleLog.innerHTML += "<br />The Nemesis "+nemesis.name +" dodged !";
-    }
-  }
-  if(herododgeroll==0){
-    hero.hp -= nemesisdamage;
-    console.log("nemesis dealt "+nemesisdamage+ " damages");
-    battleLog.innerHTML += "<br />Nemesis "+nemesis.name+" dealt "+nemesisdamage+ " damages";
-  }
-  else{
-    if(herododgeroll==2){
-      battleLog.innerHTML += "<br />The Hero "+hero.name +" blocked !";
-    }
-    else {
-      battleLog.innerHTML += "<br />The Hero "+hero.name +" dodged !";
-    }
-  }
-  console.log("hero "+hero.name +" has "+hero.hp+" hp left");
-  console.log("nemesis "+nemesis.name +" has "+nemesis.hp+" hp left");
-  if(hero.hp > 0 && nemesis.hp<=0){
-    console.log("the hero " + hero.name + " wins !");
-    battleLog.innerHTML += "<br />The Hero "+hero.name+" wins !";
-  }
-  else{
-    if(nemesis.hp > 0 && hero.hp<=0){
-      console.log("the nemesis " + nemesis.name + " wins !");
-      battleLog.innerHTML += "<br />The Nemesis "+nemesis.name+" wins !";
+  if(hero.hp > 0 && nemesis.hp > 0){
+    let nemesisdamage, herodamage,nemesisdodgeroll, herododgeroll;
+    herodamage = hero.attack("Hero");
+    nemesisdamage = nemesis.attack("Nemesis");
+    nemesisdodgeroll = nemesis.dodge();
+    herododgeroll = hero.dodge();
+    if(nemesisdodgeroll==0){
+      nemesis.hp -= herodamage;
+      console.log("hero dealt "+herodamage+ " damages");
+      battleLog.innerHTML += "<br />The Hero "+hero.name+" dealed "+herodamage+ " damages";
     }
     else{
-      if(nemesis.hp<=0 && hero.hp<=0){
-        console.log("the two dumbasses killed themselves !");
-        battleLog.innerHTML += "<br />The Dumbasses double-koed themselves";
+      if(nemesisdodgeroll==2){
+        battleLog.innerHTML += "<br />The Nemesis "+nemesis.name +" blocked !";
+      }
+      else {
+        battleLog.innerHTML += "<br />The Nemesis "+nemesis.name +" dodged !";
       }
     }
-  }
+    if(herododgeroll==0){
+      hero.hp -= nemesisdamage;
+      console.log("nemesis dealt "+nemesisdamage+ " damages");
+      battleLog.innerHTML += "<br />The Nemesis "+nemesis.name+" dealed "+nemesisdamage+ " damages";
+    }
+    else{
+      if(herododgeroll==2){
+        battleLog.innerHTML += "<br />The Hero "+hero.name +" blocked !";
+      }
+      else {
+        battleLog.innerHTML += "<br />The Hero "+hero.name +" dodged !";
+      }
+    }
+    console.log("hero "+hero.name +" has "+hero.hp+" hp left");
+    console.log("nemesis "+nemesis.name +" has "+nemesis.hp+" hp left");
+    if(hero.hp > 0 && nemesis.hp<=0){
+      console.log("the hero " + hero.name + " wins !");
+      battleLog.innerHTML += "<br />The Hero "+hero.name+" wins !";
+    }
+    else{
+      if(nemesis.hp > 0 && hero.hp<=0){
+        console.log("the nemesis " + nemesis.name + " wins !");
+        battleLog.innerHTML += "<br />The Nemesis "+nemesis.name+" wins !";
+      }
+      else{
+        if(nemesis.hp<=0 && hero.hp<=0){
+          console.log("the two dumbasses killed themselves !");
+          battleLog.innerHTML += "<br />The Dumbasses double-koed themselves";
+        }
+      }
+    }
   document.getElementById('HeroStats').innerHTML = statWindow(hero);
   document.getElementById('NemesisStats').innerHTML = statWindow(nemesis);
   battleLog.innerHTML += "<br />";
+  }
 }
 
 function statWindow(char){
