@@ -2,7 +2,7 @@
   "name": "ProjectQ",
   "version": "1.0.0",
   "description": "Learning Web Dev with a little RPG Devolopped by Senogy, based on a minigame by CobaltSnake",
-  "main": "ProjectQ.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
