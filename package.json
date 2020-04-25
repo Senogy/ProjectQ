@@ -1,0 +1,24 @@
+{
+  "name": "ProjectQ",
+  "version": "1.0.0",
+  "description": "Learning Web Dev with a little RPG Devolopped by Senogy, based on a minigame by CobaltSnake",
+  "main": "ProjectQ.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Senogy/ProjectQ.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Senogy/ProjectQ/issues"
+  },
+  "homepage": "https://github.com/Senogy/ProjectQ#readme",
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}
