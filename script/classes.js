@@ -21,10 +21,10 @@ class Classe {
     dodgechance = this.agi / 250;
     dodgeroll = Math.random();
     if (dodgeroll < dodgechance) {
-      return 1;
+      return "dodged";
     }
     else {
-      return 0;
+      return "hit";
     }
   }
   crit (name) { };
@@ -40,14 +40,14 @@ class Warrior extends Classe {
     dodgeroll = Math.random();
     blockroll = Math.random();
     if (dodgeroll < dodgechance) {
-      return 1;
+      return "dodged";
     }
     else {
       if (blockroll < this.blkchance) {
-        return 2;
+        return "blocked";
       }
       else {
-        return 0;
+        return "hit";
       }
     }
   }

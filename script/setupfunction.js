@@ -28,6 +28,5 @@ function getRandomClass () {
   var carole; // character roll --> charroll --> Carole
   var classArray = ["Warrior", "Archer", "Assassin", "Mage", "Healer", "Illusionist"];
   carole = Math.floor(Math.random() * 6);
-  console.log("getRandomClass roll " + carole + " , " + classArray[carole]);
   return classArray[carole];
 }

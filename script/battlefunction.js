@@ -4,110 +4,54 @@ function battleRound () {
     battleLog.innerHTML += "<br />"
     attackTurn("Nemesis");
     battleLog.innerHTML += "<br />"
-    if (hero.hp > 0 && nemesis.hp <= 0) {
-      console.log("the hero " + hero.name + " wins !");
+    if (hero.hp > 0 && nemesis.hp <= 0) { //If hero still alive ( hero hp > 0) while nemesis is dead ( nemesis hp <= 0)
       battleLog.innerHTML += "<br />The Hero " + hero.name + " wins !";
     }
-    else {
-      if (nemesis.hp > 0 && hero.hp <= 0) {
-        console.log("the nemesis " + nemesis.name + " wins !");
-        battleLog.innerHTML += "<br />The Nemesis " + nemesis.name + " wins !";
-      }
-      else {
-        if (nemesis.hp <= 0 && hero.hp <= 0) {
-          console.log("the two dumbasses killed themselves !");
-          battleLog.innerHTML += "<br />The Dumbasses double-koed themselves";
-        }
-      }
+    if (nemesis.hp > 0 && hero.hp <= 0) { //If nemesis still alive ( nemesis hp> 0) while hero is dead (hero hp <= 0)
+      battleLog.innerHTML += "<br />The Nemesis " + nemesis.name + " wins !";
+    }
+    if (nemesis.hp <= 0 && hero.hp <= 0) { // if both hero and nemesis are dead ( nemesis hp <= 0 AND hero hp <= 0)
+      battleLog.innerHTML += "<br />The Dumbasses double-koed themselves";
     }
     document.getElementById('HeroStats').innerHTML = statWindow(hero);
     document.getElementById('NemesisStats').innerHTML = statWindow(nemesis);
   }
 }
 function attackTurn (name) {
-  let damage, critroll;
-  let critstate = 0, dodgestate = 0;
+  let damage, critroll, charatk, chardef, namechardef;
+  let critstate = "notcrit", dodgestate = "hit"; // Initialising on false state
+  if(name === "Hero"){
+    charatk = hero;
+    chardef = nemesis;
+    namechardef = "Nemesis";
+  }
+  else{
+    charatk = nemesis;
+    chardef = hero;
+    namechardef = "Hero";
+  }
   critroll = Math.random();
-  if (name == "Hero") {
-    damage = hero.attack();
-    if (critroll < hero.crtchance) {
-      damage = Math.floor(hero.crtmltp * damage);
-      critstate = 1;
-      battleLog.innerHTML += "<br />The Hero " + hero.name + " critically striked !";
-    }
-    dodgestate = nemesis.dodge();
-    if (dodgestate != 0) {
-      if (critstate == 1) {
-        if (dodgestate == 1) {
-          battleLog.innerHTML += "<br />But the Nemesis " + nemesis.name + " dodged !";
-          hero.crit(name);
-        }
-        else {
-          battleLog.innerHTML += "<br />But the Nemesis " + nemesis.name + " blocked !";
-          hero.crit(name);
-        }
-      }
-      else {
-        if (dodgestate == 1) {
-          battleLog.innerHTML += "<br />The Nemesis " + nemesis.name + " dodged !";
-        }
-        else {
-          battleLog.innerHTML += "<br />The Nemesis " + nemesis.name + " blocked !";
-        }
-      }
+  damage = charatk.attack();
+  if (critroll < charatk.crtchance) { // attack is a crit if the crit roll is below character crit chance
+    damage = Math.floor(charatk.crtmltp * damage);
+    critstate = "crit";
+    battleLog.innerHTML += "<br />The " + name + " " + charatk.name + " critically striked !";
+  }
+  dodgestate = chardef.dodge();
+  if (dodgestate !== "hit") {       // condition to know if the attack doesn't hit
+    if (critstate === "crit") {     // we want to display a different text message depending if the attacking character did crit or not
+      battleLog.innerHTML += "<br />But the " + namechardef + " " + chardef.name + " " + dodgestate + " !";
+      charatk.crit(name);
     }
     else {
-      if (critstate == 1) {
-        battleLog.innerHTML += "<br />The Hero " + hero.name + " hitted for " + damage + " damages !";
-        hero.crit(name);
-        nemesis.hp -= damage;
-      }
-      else {
-        nemesis.hp -= damage;
-        battleLog.innerHTML += "<br />The Hero " + hero.name + " hitted for " + damage + " damages !";
-      }
+      battleLog.innerHTML += "<br />The " + namechardef + " " + chardef.name + " " + dodgestate + " !";
     }
   }
   else {
-    if (name == "Nemesis") {
-      damage = nemesis.attack();
-      if (critroll < nemesis.crtchance) {
-        damage = Math.floor(nemesis.crtmltp * damage);
-        critstate = 1;
-        battleLog.innerHTML += "<br />The Nemesis " + nemesis.name + " critically striked !";
-      }
-      dodgestate = hero.dodge();
-      if (dodgestate != 0) {
-        if (critstate == 1) {
-          if (dodgestate == 1) {
-            battleLog.innerHTML += "<br />But the Hero " + hero.name + " dodged !";
-            nemesis.crit(name);
-          }
-          else {
-            battleLog.innerHTML += "<br />But the Hero " + hero.name + " blocked !";
-            nemesis.crit(name);
-          }
-        }
-        else {
-          if (dodgestate == 1) {
-            battleLog.innerHTML += "<br />The Hero " + hero.name + " dodged !";
-          }
-          else {
-            battleLog.innerHTML += "<br />The Hero " + hero.name + " blocked !";
-          }
-        }
-      }
-      else {
-        if (critstate == 1) {
-          battleLog.innerHTML += "<br />The Nemesis " + nemesis.name + " hitted for " + damage + " damages !";
-          nemesis.crit(name);
-          hero.hp -= damage;
-        }
-        else {
-          hero.hp -= damage;
-          battleLog.innerHTML += "<br />The Nemesis " + nemesis.name + " hitted for " + damage + " damages !";
-        }
-      }
+    battleLog.innerHTML += "<br />The " + name + " " + charatk.name + " hitted for " + damage + " damages !";
+    if (critstate == "crit") {
+      charatk.crit(name);
     }
+    chardef.hp -= damage;
   }
 }
