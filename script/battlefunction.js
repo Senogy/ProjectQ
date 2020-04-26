@@ -1,9 +1,24 @@
+var herohaste = 0, nemesishaste = 0;
 function battleRound () {
   if (hero.hp > 0 && nemesis.hp > 0) {
-    attackTurn("Hero");
-    logDisplay("<br />");
-    attackTurn("Nemesis");
-    logDisplay("<br />");
+    herohaste += hero.agi/2;
+    nemesishaste += nemesis.agi/2;
+    console.log("Hero haste "+herohaste+"/100");
+    console.log("Nemesis haste "+nemesishaste+"/100");
+    document.getElementById('HeroHaste').innerHTML = "Haste <br />"+herohaste+"/100";
+    document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesishaste+"/100";
+    if(herohaste>=100){
+      attackTurn("Hero");
+      logDisplay("<br />");
+      herohaste -= 100;
+      document.getElementById('HeroHaste').innerHTML = "Haste <br />"+herohaste+"/100";
+    }
+    if(nemesishaste>=100){
+      attackTurn("Nemesis");
+      logDisplay("<br />");
+      nemesishaste -= 100;
+      document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesishaste+"/100";
+    }
     if (hero.hp > 0 && nemesis.hp <= 0) { //If hero still alive ( hero hp > 0) while nemesis is dead ( nemesis hp <= 0)
       logDisplay("<br />The Hero " + hero.name + " wins !");
     }

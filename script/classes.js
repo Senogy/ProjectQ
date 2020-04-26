@@ -12,7 +12,7 @@ class Classe {
 
   attack () {
     let bestStat;
-    bestStat = Math.max(this.str, this.agi, this.int); // Determinate best offensive statistic between strength agility and intelligence
+    bestStat = Math.max(this.str, this.int); // Determinate best offensive statistic between strength agility and intelligence
     return Math.floor((1 + Math.random()) * (bestStat / 3)); // deal damage between half and full of the stats
   }
 
@@ -64,7 +64,7 @@ class Archer extends Classe {
 }
 class Assassin extends Classe {
   constructor() {
-    super(["Assassin", 120, 10, 40, 20, 0.30, 3, 0]);
+    super(["Assassin", 120, 10, 70, 20, 0.30, 5, 0]);
   }
 }
 class Mage extends Classe {
