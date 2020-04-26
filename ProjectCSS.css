@@ -13,13 +13,15 @@ ul
   display: flex;
   flex-wrap: wrap;
   align-content: center;
+  max-width: 1080px;
+  margin: auto;
 }
 
 li
 {
-  margin : auto;
   padding: 5px;
   font-size: 2em;
+  margin: auto;
 }
 
 #GameWindow
@@ -29,11 +31,23 @@ li
 }
 .HeroBox, .NemesisBox, .CenterBox
 {
-  margin: auto;
   padding: 20px;
+}
+.HeroBox
+{
+  margin-left: auto;
+}
+.NemesisBox
+{
+  margin-right: auto;
+}
+.CenterBox
+{
+  min-width: 500px;
 }
 #CombatLog
 {
+  text-align: left;
   height: 500px;
   overflow: auto;
 }

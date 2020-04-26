@@ -1,8 +1,6 @@
 var hero, nemesis;
 var battleLog = document.getElementById('CombatLog');
 
-
-
 document.getElementById('Warrior').onclick = () => setupGame("Warrior");
 document.getElementById('Archer').onclick = () => setupGame("Archer");
 document.getElementById('Assassin').onclick = () => setupGame("Assassin");
