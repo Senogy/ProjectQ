@@ -28,6 +28,7 @@ li
 {
   display: none;
   flex-direction: row;
+  align-items: center; 
 }
 .HeroBox, .NemesisBox, .CenterBox
 {
