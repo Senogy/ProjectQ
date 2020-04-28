@@ -59,8 +59,8 @@ class Archer extends Classe {
   }
 
   crit (name) {
-    logDisplay("<br />The " + name + " " + this.name + " quickly fire his next arrow !");
-    attackTurn(name);
+    combatLog.add("<br />The " + name + " " + this.name + " quickly prepare his next arrow !");
+    combatLog.display();
     this.haste += Math.floor(maxhaste*75/100);
   }
 }
@@ -82,7 +82,8 @@ class Healer extends Classe {
   crit (name) {
     let healroll = Math.floor((1 + Math.random()) * (this.int / 2));
     this.hp += healroll; //if Healer crit he heal himself for half of the damage dealt dodged or not
-    logDisplay("<br />The " + name + " " + this.name + " healed himself of " + healroll + " Hp !");
+    combatLog.add("<br />The " + name + " " + this.name + " healed himself of " + healroll + " Hp !");
+    combatLog.display();
   }
 }
 class Illusionist extends Classe {
@@ -95,6 +96,7 @@ class Illusionist extends Classe {
     hpSwap = nemesis.hp;
     nemesis.hp = hero.hp;
     hero.hp = hpSwap;
-    logDisplay("<br />The " + name + " " + this.name + " just did a life swap");
+    combatLog.add("<br />The " + name + " " + this.name + " just did a life swap");
+    combatLog.display();
   }
 }

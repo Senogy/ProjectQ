@@ -10,24 +10,29 @@ async function battleRound () {
     }
     if(hero.haste>=maxhaste){
       attackTurn("Hero");
-      logDisplay("<br />");
+      combatLog.add("<br />");
+      combatLog.display();
       hero.haste -= maxhaste;
       document.getElementById('HeroHaste').innerHTML = "Haste <br />"+hero.haste+"/"+maxhaste;
     }
     if(nemesis.haste>=maxhaste){
       attackTurn("Nemesis");
-      logDisplay("<br />");
+      combatLog.add("<br />");
+      combatLog.display();
       nemesis.haste -= maxhaste;
       document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesis.haste+"/"+maxhaste;
     }
     if (hero.hp > 0 && nemesis.hp <= 0) { //If hero still alive ( hero hp > 0) while nemesis is dead ( nemesis hp <= 0)
-      logDisplay("<br />The Hero " + hero.name + " wins !");
+      combatLog.add("<br />The Hero " + hero.name + " wins !");
+      combatLog.display();
     }
     if (nemesis.hp > 0 && hero.hp <= 0) { //If nemesis still alive ( nemesis hp> 0) while hero is dead (hero hp <= 0)
-      logDisplay("<br />The Nemesis " + nemesis.name + " wins !");
+      combatLog.add("<br />The Nemesis " + nemesis.name + " wins !");
+      combatLog.display();
     }
     if (nemesis.hp <= 0 && hero.hp <= 0) { // if both hero and nemesis are dead ( nemesis hp <= 0 AND hero hp <= 0)
-      logDisplay("<br />The Dumbasses double-koed themselves");
+      combatLog.add("<br />The Dumbasses double-koed themselves");
+      combatLog.display();
     }
     document.getElementById('HeroStats').innerHTML = statWindow(hero);
     document.getElementById('NemesisStats').innerHTML = statWindow(nemesis);
@@ -57,20 +62,24 @@ function attackTurn (name) {
   if (critroll < charatk.crtchance) { // attack is a crit if the crit roll is below character crit chance
     damage = Math.floor(charatk.crtmltp * damage);
     critstate = "crit";
-    logDisplay("<br />The " + name + " " + charatk.name + " critically striked !");
+    combatLog.add("<br />The " + name + " " + charatk.name + " critically striked !");
+    combatLog.display();
   }
   dodgestate = chardef.dodge();
   if (dodgestate !== "hit") {       // condition to know if the attack doesn't hit
     if (critstate === "crit") {     // we want to display a different text message depending if the attacking character did crit or not
-      logDisplay("<br />But the " + namechardef + " " + chardef.name + " " + dodgestate + " !");
+      combatLog.add("<br />But the " + namechardef + " " + chardef.name + " " + dodgestate + " !");
+      combatLog.display();
       charatk.crit(name);
     }
     else {
-      logDisplay("<br />The " + namechardef + " " + chardef.name + " " + dodgestate + " !");
+      combatLog.add("<br />The " + namechardef + " " + chardef.name + " " + dodgestate + " !");
+      combatLog.display();
     }
   }
   else {
-    logDisplay("<br />The " + name + " " + charatk.name + " hitted for " + damage + " damages !");
+    combatLog.add("<br />The " + name + " " + charatk.name + " hitted for " + damage + " damages !");
+    combatLog.display();
     if (critstate == "crit") {
       charatk.crit(name);
     }

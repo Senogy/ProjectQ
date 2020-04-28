@@ -28,7 +28,7 @@ li
 {
   display: none;
   flex-direction: row;
-  align-items: center; 
+  align-items: center;
 }
 .HeroBox, .NemesisBox, .CenterBox
 {
@@ -49,6 +49,6 @@ li
 #CombatLog
 {
   text-align: left;
-  height: 500px;
+  height : 300px;
   overflow: auto;
 }
