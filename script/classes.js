@@ -112,3 +112,31 @@ class Illusionist extends Classe {
     combatLog.display();
   }
 }
+class Berserker extends Classe {
+  constructor() {
+    super(["Berserker", 120, 30, 30, 5, 0.1, 2.5, 0.01]);
+  }
+  onhit(name, damage){
+    this.agi -= Math.floor(damage);
+    if(this.agi < 5){
+      this.agi = 5;
+    }
+    this.str += damage*2;
+    combatLog.add("<br />The "+name+" "+this.name+" is more beefed up");
+    combatLog.display();
+  }
+}
+class Necromancer extends Classe {
+  constructor() {
+    super(["Necromancer", 120, 10, 25, 40, 0.2, 2, 0]);
+  }
+  lifetoken = 2;
+  onhit(name, damage){
+    if(this.lifetoken > 0 && this.hp-damage <= 0 ){
+      this.lifetoken -= 1;
+      this.hp += damage;
+      combatLog.add("<BR />The "+name+" "+this.name+" mitigated the damage using a life token.");
+      combatLog.display();
+    }
+  }
+}

@@ -21,13 +21,15 @@ function charselect (char) {
     case 'Mage': return new Mage(); break;
     case 'Healer': return new Healer(); break;
     case 'Illusionist': return new Illusionist(); break;
+    case 'Berserker': return new Berserker(); break;
+    case 'Necromancer': return new Necromancer(); break;
     default: console.log("Wrong Input");
   }
 }
 
 function getRandomClass () {
   var carole; // character roll --> charroll --> Carole
-  var classArray = ["Warrior", "Archer", "Assassin", "Mage", "Healer", "Illusionist"];
-  carole = Math.floor(Math.random() * 6);
+  var classArray = ["Warrior", "Archer", "Assassin", "Mage", "Healer", "Illusionist","Berserker","Necromancer"];
+  carole = Math.floor(Math.random() * 8);
   return classArray[carole];
 }
