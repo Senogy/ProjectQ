@@ -1,23 +1,24 @@
 var herohaste = 0, nemesishaste = 0;
-function battleRound () {
+var fps = 10;
+async function battleRound () {
   if (hero.hp > 0 && nemesis.hp > 0) {
-    herohaste += hero.agi/2;
-    nemesishaste += nemesis.agi/2;
-    console.log("Hero haste "+herohaste+"/100");
-    console.log("Nemesis haste "+nemesishaste+"/100");
-    document.getElementById('HeroHaste').innerHTML = "Haste <br />"+herohaste+"/100";
-    document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesishaste+"/100";
-    if(herohaste>=100){
+    while(herohaste<1000 && nemesishaste<1000){
+      herohaste += await hastetimer(hero);
+      nemesishaste += await hastetimer(nemesis);
+      document.getElementById('HeroHaste').innerHTML = "Haste <br />"+ herohaste+"/1000";
+      document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+ nemesishaste+"/1000";
+    }
+    if(herohaste>=1000){
       attackTurn("Hero");
       logDisplay("<br />");
-      herohaste -= 100;
-      document.getElementById('HeroHaste').innerHTML = "Haste <br />"+herohaste+"/100";
+      herohaste -= 1000;
+      document.getElementById('HeroHaste').innerHTML = "Haste <br />"+herohaste+"/1000";
     }
-    if(nemesishaste>=100){
+    if(nemesishaste>=1000){
       attackTurn("Nemesis");
       logDisplay("<br />");
-      nemesishaste -= 100;
-      document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesishaste+"/100";
+      nemesishaste -= 1000;
+      document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesishaste+"/1000";
     }
     if (hero.hp > 0 && nemesis.hp <= 0) { //If hero still alive ( hero hp > 0) while nemesis is dead ( nemesis hp <= 0)
       logDisplay("<br />The Hero " + hero.name + " wins !");
@@ -32,6 +33,12 @@ function battleRound () {
     document.getElementById('NemesisStats').innerHTML = statWindow(nemesis);
   }
 }
+  function hastetimer (char) {
+    return new Promise(res => {
+      setTimeout(
+        () => res(Math.floor(char.agi)), 1000/fps)
+    });
+  }
 function attackTurn (name) {
   let damage, critroll, charatk, chardef, namechardef;
   let critstate = "notcrit", dodgestate = "hit"; // Initialising on false state
