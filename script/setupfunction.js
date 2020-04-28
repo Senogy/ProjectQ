@@ -7,9 +7,10 @@ function setupGame (charclass) {     // Charclass répare charclass remplace
   document.getElementById('GameWindow').style.display = "flex";
   document.getElementById('HeroClass').innerHTML = hero.name;
   document.getElementById('HeroStats').innerHTML = statWindow(hero);
+  document.getElementById('HeroHaste').innerHTML = "Haste <br />"+hero.haste+"/"+maxhaste;
   document.getElementById('NemesisClass').innerHTML = nemesis.name;
   document.getElementById('NemesisStats').innerHTML = statWindow(nemesis);
-
+  document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesis.haste+"/"+maxhaste;
 }
 
 function charselect (char) {
