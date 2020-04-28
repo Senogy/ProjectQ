@@ -18,24 +18,6 @@ class Classe {
   }
 
   dodge () {
-    let dodgeroll, dodgechance;
-    dodgechance = this.agi / 250;
-    dodgeroll = Math.random();
-    if (dodgeroll < dodgechance) {
-      return "dodged";
-    }
-    else {
-      return "hit";
-    }
-  }
-  crit (name) { };
-}
-class Warrior extends Classe {
-  constructor() {
-    super(["Warrior", 150, 40, 10, 20, 0.2, 1.5, 0.2]);
-  }
-
-  dodge () {
     let dodgeroll, dodgechance, blockroll;
     dodgechance = this.agi / 250;
     dodgeroll = Math.random();
@@ -51,6 +33,36 @@ class Warrior extends Classe {
         return "hit";
       }
     }
+  }
+  crit (name) { };
+  onhit (name, damage){};
+}
+class Warrior extends Classe {
+  constructor() {
+    super(["Warrior", 150, 40, 10, 20, 0.2, 1.5, 0.2]);
+  }
+  dodge () {
+    let dodgeroll, dodgechance, blockroll;
+    dodgechance = this.agi / 250;
+    dodgeroll = Math.random();
+    blockroll = Math.random();
+    if (dodgeroll < dodgechance) {
+      return "dodged";
+    }
+    else {
+      if (blockroll < this.blkchance) {
+        this.blkchance = 0.2;
+        return "blocked";
+      }
+      else {
+        return "hit";
+      }
+    }
+  }
+  onhit(name, damage){
+    this.blkchance += 0.05;
+    combatLog.add("<br />The "+name+" "+this.name+" is a little more on guard.");
+    combatLog.display();
   }
 }
 class Archer extends Classe {

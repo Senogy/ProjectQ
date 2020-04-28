@@ -83,6 +83,7 @@ function attackTurn (name) {
     if (critstate == "crit") {
       charatk.crit(name);
     }
+    chardef.onhit(namechardef, damage);
     chardef.hp -= damage;
   }
 }
