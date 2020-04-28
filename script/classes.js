@@ -9,6 +9,7 @@ class Classe {
     this.crtmltp = ClassStats[6];   // Critical damage multiplier
     this.blkchance = ClassStats[7]; // Block chance
   }
+  haste = 0;
 
   attack () {
     let bestStat;
@@ -60,6 +61,7 @@ class Archer extends Classe {
   crit (name) {
     logDisplay("<br />The " + name + " " + this.name + " quickly fire his next arrow !");
     attackTurn(name);
+    this.haste += Math.floor(maxhaste*75/100);
   }
 }
 class Assassin extends Classe {

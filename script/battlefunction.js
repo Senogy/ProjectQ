@@ -1,24 +1,24 @@
-var herohaste = 0, nemesishaste = 0;
-var fps = 10;
+var maxhaste = 500;
+var fps = 30;
 async function battleRound () {
   if (hero.hp > 0 && nemesis.hp > 0) {
-    while(herohaste<1000 && nemesishaste<1000){
-      herohaste += await hastetimer(hero);
-      nemesishaste += await hastetimer(nemesis);
-      document.getElementById('HeroHaste').innerHTML = "Haste <br />"+ herohaste+"/1000";
-      document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+ nemesishaste+"/1000";
+    while(hero.haste<maxhaste && nemesis.haste<maxhaste){
+      hero.haste += await hastetimer(hero);
+      nemesis.haste += await hastetimer(nemesis);
+      document.getElementById('HeroHaste').innerHTML = "Haste <br />"+ hero.haste+"/"+maxhaste;
+      document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+ nemesis.haste+"/"+maxhaste;
     }
-    if(herohaste>=1000){
+    if(hero.haste>=maxhaste){
       attackTurn("Hero");
       logDisplay("<br />");
-      herohaste -= 1000;
-      document.getElementById('HeroHaste').innerHTML = "Haste <br />"+herohaste+"/1000";
+      hero.haste -= maxhaste;
+      document.getElementById('HeroHaste').innerHTML = "Haste <br />"+hero.haste+"/"+maxhaste;
     }
-    if(nemesishaste>=1000){
+    if(nemesis.haste>=maxhaste){
       attackTurn("Nemesis");
       logDisplay("<br />");
-      nemesishaste -= 1000;
-      document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesishaste+"/1000";
+      nemesis.haste -= maxhaste;
+      document.getElementById('NemesisHaste').innerHTML = "Haste <br />"+nemesis.haste+"/"+maxhaste;
     }
     if (hero.hp > 0 && nemesis.hp <= 0) { //If hero still alive ( hero hp > 0) while nemesis is dead ( nemesis hp <= 0)
       logDisplay("<br />The Hero " + hero.name + " wins !");
@@ -36,7 +36,7 @@ async function battleRound () {
   function hastetimer (char) {
     return new Promise(res => {
       setTimeout(
-        () => res(Math.floor(char.agi)), 1000/fps)
+        () => res(Math.floor(Math.cbrt(char.agi)*100/fps)), 1000/fps)
     });
   }
 function attackTurn (name) {
