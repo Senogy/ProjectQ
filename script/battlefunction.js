@@ -79,10 +79,16 @@ function attackTurn (name) {
       combatLog.add("<br />But the " + namechardef + " " + chardef.name + " " + dodgestate + " !");
       combatLog.display("CombatLog");
       charatk.oncrit(name);
+      if(dodgestate === "blocked"){
+        chardef.onblock(namechardef);
+      }
     }
     else {
       combatLog.add("<br />The " + namechardef + " " + chardef.name + " " + dodgestate + " !");
       combatLog.display("CombatLog");
+      if(dodgestate === "blocked"){
+        chardef.onblock(namechardef);
+      }
     }
   }
   else {

@@ -40,32 +40,19 @@ class Classe {
   }
   oncrit (name) { }; // this is the method describing action to do when character crit
   onhit (name, damage){}; // this is the method describing action to do when character take a hit
+  onblock (name){};
 }
 class Warrior extends Classe {
   constructor() {
     super(["Warrior", 150, 40, 10, 20, 0.2, 1.5, 0.2]);
   }
-  dodge () { // Warior has a special dodge because blocking with a warrior reset his block chance
-    const dodgechance = this.agi / 250;
-    const dodgeroll = Math.random();
-    const blockroll = Math.random();
-    if (dodgeroll < dodgechance) {
-      return "dodged";
-    }
-    else {
-      if (blockroll < this.blkchance) {
-        this.blkchance = 0.2; // reset of block chance
-        return "blocked";
-      }
-      else {
-        return "hit";
-      }
-    }
-  }
   onhit(name, damage){ // Warrior has special onhit, he gain block chance when taking hit
     this.blkchance += 0.05;
     combatLog.add("<br />The "+name+" "+this.name+" is a little more on guard.");
     combatLog.display("CombatLog");
+  }
+  onblock( name ){
+    this.blkchance = 0.2;
   }
 }
 class Archer extends Classe {
