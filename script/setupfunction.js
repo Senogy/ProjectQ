@@ -28,6 +28,7 @@ function charselect (char) {
     case 'Illusionist': return new Illusionist(); break;
     case 'Berserker': return new Berserker(); break;
     case 'Necromancer': return new Necromancer(); break;
+    case 'Saitama': return new Saitama(); break;
     default: console.log("Wrong Input");
   }
 }

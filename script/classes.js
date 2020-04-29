@@ -44,7 +44,7 @@ class Classe {
 }
 class Warrior extends Classe {
   constructor() {
-    super(["Warrior", 150, 40, 10, 20, 0.2, 1.5, 0.2]);
+    super(["Warrior", 200, 40, 10, 20, 0.2, 1.5, 0.2]);
   }
   onhit(name, damage){ // Warrior has special onhit, he gain block chance when taking hit
     this.blkchance += 0.05;
@@ -57,7 +57,7 @@ class Warrior extends Classe {
 }
 class Archer extends Classe {
   constructor() {
-    super(["Archer", 130, 30, 50, 20, 0.33, 1.25, 0]);
+    super(["Archer", 170, 30, 50, 20, 0.33, 1.25, 0]);
   }
 
   oncrit (name) { // Archer has special oncrit, when archer crit he regain some his haste, playing faster
@@ -68,17 +68,17 @@ class Archer extends Classe {
 }
 class Assassin extends Classe {
   constructor() {
-    super(["Assassin", 120, 10, 70, 20, 0.30, 5, 0]);
+    super(["Assassin", 150, 10, 70, 20, 0.30, 5, 0]);
   }
 }
 class Mage extends Classe {
   constructor() {
-    super(["Mage", 100, 20, 30, 70, 0.05, 3, 0]);
+    super(["Mage", 120, 20, 30, 70, 0.05, 3, 0]);
   }
 }
 class Healer extends Classe {
   constructor() {
-    super(["Healer", 140, 30, 30, 40, 0.15, 1.5, 0]);
+    super(["Healer", 170, 30, 30, 40, 0.15, 1.5, 0]);
   }
 
   oncrit (name) { // Healer has special oncrit, heal himself when he crit
@@ -90,7 +90,7 @@ class Healer extends Classe {
 }
 class Illusionist extends Classe {
   constructor() {
-    super(["Illusionist", 110, 20, 20, 40, 0.5, 1.2, 0]);
+    super(["Illusionist", 130, 20, 20, 40, 0.5, 1.2, 0]);
   }
 
   oncrit (name) { // Illusionist has special oncrit, he swap his hp with his ennemy
@@ -104,7 +104,7 @@ class Illusionist extends Classe {
 }
 class Berserker extends Classe {
   constructor() {
-    super(["Berserker", 120, 30, 30, 5, 0.1, 2.5, 0.01]);
+    super(["Berserker", 170, 30, 30, 5, 0.1, 2.5, 0.01]);
   }
   onhit(name, damage){ // Berserker has special onhit, he gain strength but lose agility indexed on damage he took
     this.agi -= Math.floor(damage);
@@ -128,5 +128,10 @@ class Necromancer extends Classe {
       combatLog.add("<BR />The "+name+" "+this.name+" mitigated the damage using a life token.");
       combatLog.display("CombatLog");
     }
+  }
+}
+class Saitama extends Classe {
+  constructor() {
+    super(["Saitama", 999, 999, 999, 999, 1, 50, 0]);
   }
 }
