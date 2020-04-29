@@ -18,17 +18,17 @@ function createLogBuffer(logSize){ // Used to create a buffer containing logs
       logBuffer.shift();
     }
   }
-  function logDisplay(){
-    document.getElementById('CombatLog').innerHTML = "";
-    logBuffer.forEach(string => {document.getElementById('CombatLog').innerHTML += string;
+  function logDisplay(logsid){ // used to display the logs in the html id passed in argument
+    document.getElementById(logsid).innerHTML = "";
+    logBuffer.forEach(string => {document.getElementById(logsid).innerHTML += string;
     });
   }
   return {
     add: (input) => {
       addToLog(input)
     },
-    display: () => {
-      logDisplay();
+    display: (logsid) => {
+      logDisplay(logsid);
     }
   }
 }

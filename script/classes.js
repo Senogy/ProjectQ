@@ -65,7 +65,7 @@ class Warrior extends Classe {
   onhit(name, damage){ // Warrior has special onhit, he gain block chance when taking hit
     this.blkchance += 0.05;
     combatLog.add("<br />The "+name+" "+this.name+" is a little more on guard.");
-    combatLog.display();
+    combatLog.display("CombatLog");
   }
 }
 class Archer extends Classe {
@@ -75,7 +75,7 @@ class Archer extends Classe {
 
   oncrit (name) { // Archer has special oncrit, when archer crit he regain some his haste, playing faster
     combatLog.add("<br />The " + name + " " + this.name + " quickly prepare his next arrow !");
-    combatLog.display();
+    combatLog.display("CombatLog");
     this.haste += Math.floor(maxhaste*75/100);
   }
 }
@@ -98,7 +98,7 @@ class Healer extends Classe {
     const healroll = Math.floor((1 + Math.random()) * (this.int / 2));
     this.hp += healroll; //if Healer crit he heal himself for half of the damage dealt dodged or not
     combatLog.add("<br />The " + name + " " + this.name + " healed himself of " + healroll + " Hp !");
-    combatLog.display();
+    combatLog.display("CombatLog");
   }
 }
 class Illusionist extends Classe {
@@ -112,7 +112,7 @@ class Illusionist extends Classe {
     nemesis.hp = hero.hp;
     hero.hp = hpSwap;
     combatLog.add("<br />The " + name + " " + this.name + " just did a life swap");
-    combatLog.display();
+    combatLog.display("CombatLog");
   }
 }
 class Berserker extends Classe {
@@ -126,12 +126,12 @@ class Berserker extends Classe {
     }
     this.str += damage*2;
     combatLog.add("<br />The "+name+" "+this.name+" is more beefed up");
-    combatLog.display();
+    combatLog.display("CombatLog");
   }
 }
 class Necromancer extends Classe {
   constructor() {
-    super(["Necromancer", 120, 10, 25, 40, 0.2, 2, 0]);
+    super(["Necromancer", 120, 10, 25, 35, 0.15, 2, 0]);
   }
   lifetoken = 2;
   onhit(name, damage){ // Necromancer has special onhit allowing him to mitigate deadly damage he was supposed to take using a token
@@ -139,7 +139,7 @@ class Necromancer extends Classe {
       this.lifetoken -= 1;
       this.hp += damage;
       combatLog.add("<BR />The "+name+" "+this.name+" mitigated the damage using a life token.");
-      combatLog.display();
+      combatLog.display("CombatLog");
     }
   }
 }
