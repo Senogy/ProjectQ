@@ -1,22 +1,20 @@
-function statWindow (char) {
+// Display function global variables declaration
+var combatLog = createLogBuffer(15);
+const fps = 30;
+// End of global variables declaration
+
+// Display function
+function statWindow (char) { //Display character stats during the fight
   return "Health Point: " + char.hp +
     "<br />Strength: " + char.str +
     "<br />Agility: " + char.agi +
     "<br />Intelligence: " + char.int;
 }
-/*
-function logDisplay(string){
-  document.getElementById('CombatLog').innerHTML += string;
-}
-*/
-
-var combatLog = createLogBuffer(15);
-
-function createLogBuffer(logSize){
+function createLogBuffer(logSize){ // Used to create a buffer containing logs
   var logBuffer = [];
-  function addToLog(input){
+  function addToLog(input){ // add a string passed in argument at the end of the buffer
     logBuffer.push(input);
-    if(logBuffer.length > logSize){
+    if(logBuffer.length > logSize){ // if the buffer length is longer than wanted, we delete the first element
       logBuffer.shift();
     }
   }
@@ -34,3 +32,4 @@ function createLogBuffer(logSize){
     }
   }
 }
+// End of display function

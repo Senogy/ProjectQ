@@ -1,5 +1,8 @@
-var maxhaste = 500;
-var fps = 30;
+// Battle function global variables declaration
+const maxhaste = 500;
+// End of global variables declaration
+
+// Battle function
 async function battleRound () {
   if (hero.hp > 0 && nemesis.hp > 0) {
     while(hero.haste<maxhaste && nemesis.haste<maxhaste){
@@ -70,7 +73,7 @@ function attackTurn (name) {
     if (critstate === "crit") {     // we want to display a different text message depending if the attacking character did crit or not
       combatLog.add("<br />But the " + namechardef + " " + chardef.name + " " + dodgestate + " !");
       combatLog.display();
-      charatk.crit(name);
+      charatk.oncrit(name);
     }
     else {
       combatLog.add("<br />The " + namechardef + " " + chardef.name + " " + dodgestate + " !");
@@ -81,9 +84,10 @@ function attackTurn (name) {
     combatLog.add("<br />The " + name + " " + charatk.name + " hitted for " + damage + " damages !");
     combatLog.display();
     if (critstate == "crit") {
-      charatk.crit(name);
+      charatk.oncrit(name);
     }
     chardef.onhit(namechardef, damage);
     chardef.hp -= damage;
   }
 }
+// End of Battle Function

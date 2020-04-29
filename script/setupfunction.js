@@ -1,3 +1,8 @@
+// Setup function global variables declaration
+var hero, nemesis;
+// End of global variables declaration
+
+// Setup Function
 function setupGame (charclass) {     // Charclass répare charclass remplace
   document.getElementById('ClassSelector').style.display = "none";
   console.log("ProjectQ now running...");
@@ -33,3 +38,4 @@ function getRandomClass () {
   carole = Math.floor(Math.random() * 8);
   return classArray[carole];
 }
+// End of Setup Function
